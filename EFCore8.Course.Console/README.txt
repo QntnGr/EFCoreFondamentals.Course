@@ -10,5 +10,8 @@ dotnet ef database update
 .appliquer la migration dans un script
 dotnet ef migrations script
 
-.générer la migartion sql:
-script-migration
+.générer la migartion sql 
+(options: -idempotent: vérifie qu'un élément existe avant de le créer
+MigrationName, commencera sa migration après la migration MigrationName):
+script-migration -idempotent
+script-migration MigrationName
