@@ -2,7 +2,7 @@
 dotnet tool install dotnet-ef
 
 .ajouter une migration:
-dotnet ef migrations add
+add-migration MigrationName
 
 .appliquer la migration a la base de donnée
 dotnet ef database update
