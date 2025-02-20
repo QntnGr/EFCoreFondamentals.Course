@@ -1,0 +1,19 @@
+﻿# Fichiers spécifiques à Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Dossiers bin et obj
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+
+# Fichiers générés par les builds
+*.exe
+*.dll
+*.pdb
+*.log
+*.cache
