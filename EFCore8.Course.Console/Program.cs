@@ -12,6 +12,7 @@ using (PubContext context = new PubContext())
 //GetAuthors();
 //AddAuthorWithBook();
 //GetAuthorsWithBooks();
+//DeleteDupicate();
 
 void AddAuthorWithBook()
 {
@@ -54,6 +55,30 @@ void AddAuthor()
     using var context = new PubContext();
     context.Authors.Add(author);
     context.SaveChanges();
+}
+
+void DeleteDupicate()
+{
+    using var _context = new PubContext();
+    var duplicateAuthors = _context.Authors
+        .GroupBy(aut => new { aut.LastName, aut.FirstName})
+        .Select(g => new
+        {
+            Key1 = g.Key.FirstName,
+            Key2 = g.Key.LastName,
+            Items = g.ToList()
+        })
+        .ToList();
+
+    foreach (var duplicateAuthor in duplicateAuthors.Select( da=>da.Items).Where(da => da.Count > 1))
+    {
+        while(duplicateAuthor.Count != 1)
+        {
+            _context.Authors.Remove(duplicateAuthor.First());
+            duplicateAuthor.Remove(duplicateAuthor.First());
+            _context.SaveChanges();
+        }
+    }
 }
 
 string GetAuthors()
