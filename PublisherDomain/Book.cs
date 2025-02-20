@@ -7,5 +7,6 @@ public class Book
     public required string Title { get; set; }
     public DateOnly PublishDate { get; set; }
     public decimal BasePrice { get; set; }
-    public required Author Author { get; set; }
+    public Author Author { get; set; }
+    public required int AuthorId { get; set; }
 }
