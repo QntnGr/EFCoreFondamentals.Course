@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace PublisherDomain;
 
 public class Author
