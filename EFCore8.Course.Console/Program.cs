@@ -7,6 +7,22 @@ using var context = new PubContext();
     context.Database.EnsureCreated();
 }
 
+
+//AddNewBookToExistingAuthorInMemory();
+void AddNewBookToExistingAuthorInMemory()
+{
+    var author = context.Authors.FirstOrDefault(a => a.LastName == "Howey");
+    if (author != null)
+    {
+        author.Books.Add(
+          new Book { Title = "Wool", PublishDate = new DateOnly(2012, 1, 1) }
+          );
+        //_context.Authors.Add(author); //this will cause a duplicate key error
+    }
+    context.SaveChanges();
+}
+
+
 //InsertNewAuthorWithBook();
 void InsertNewAuthorWithBook()
 {

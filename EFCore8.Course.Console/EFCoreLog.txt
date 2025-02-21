@@ -211,3 +211,41 @@ info: 21/02/2025 13:02:12.413 RelationalEventId.CommandExecuted[20101] (Microsof
       FROM [Authors] AS [a]
       LEFT JOIN [Books] AS [b] ON [a].[AuthorId] = [b].[AuthorId]
       ORDER BY [a].[AuthorId]
+info: 21/02/2025 13:08:38.163 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: 21/02/2025 13:08:38.196 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (26ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      
+      IF EXISTS
+          (SELECT *
+           FROM [sys].[objects] o
+           WHERE [o].[type] = 'U'
+           AND [o].[is_ms_shipped] = 0
+           AND NOT EXISTS (SELECT *
+               FROM [sys].[extended_properties] AS [ep]
+               WHERE [ep].[major_id] = [o].[object_id]
+                   AND [ep].[minor_id] = 0
+                   AND [ep].[class] = 1
+                   AND [ep].[name] = N'microsoft_database_tools_support'
+          )
+      )
+      SELECT 1 ELSE SELECT 0
+info: 21/02/2025 13:08:38.370 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[AuthorId], [a].[FirstName], [a].[LastName]
+      FROM [Authors] AS [a]
+      WHERE [a].[LastName] = N'Howey'
+info: 21/02/2025 13:08:38.479 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (17ms) [Parameters=[@p0='5', @p1='0' (Precision = 18) (Scale = 2), @p2='01/01/2012' (DbType = Date), @p3='Wool' (Nullable = false) (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [Books] ([AuthorId], [BasePrice], [PublishDate], [Title])
+      OUTPUT INSERTED.[BookId]
+      VALUES (@p0, @p1, @p2, @p3);
+info: 21/02/2025 13:08:39.491 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [a].[AuthorId], [a].[FirstName], [a].[LastName], [b].[BookId], [b].[AuthorId], [b].[BasePrice], [b].[PublishDate], [b].[Title]
+      FROM [Authors] AS [a]
+      LEFT JOIN [Books] AS [b] ON [a].[AuthorId] = [b].[AuthorId]
+      ORDER BY [a].[AuthorId]
