@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PublisherDomain;
 
 namespace PublisherData;
@@ -7,12 +8,22 @@ public class PubContext : DbContext
 {
     public DbSet<Author> Authors { get; set; }
     public DbSet<Book> Books { get; set; }
+    private static readonly object _fileLock = new object();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
           "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = PubDatabase"
-        );
+        ).LogTo(message =>
+        {
+            lock (_fileLock)
+            {
+                File.AppendAllText("EFCoreLog.txt", message + Environment.NewLine);
+            }
+        },
+        new[] { DbLoggerCategory.Database.Name },
+        LogLevel.Information);
+        //.EnableSensitiveDataLogging();//to add in debug, display parameters in query
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

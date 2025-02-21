@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PublisherData;
 using PublisherDomain;
 
-using (PubContext context = new PubContext())
+using var context = new PubContext();
 {
     context.Database.EnsureCreated();
 }
@@ -23,13 +23,12 @@ void AddAuthorWithBook()
         PublishDate = new DateOnly(2010, 8, 1),
         AuthorId = author.AuthorId,
     });
-    using var context = new PubContext();
     context.Authors.Add(author);
     context.SaveChanges();
 }
+
 string GetAuthorsWithBooks()
 {
-    using var context = new PubContext();
     var authors = context.Authors.Include(a => a.Books).ToList();
     var authorsWithBooks = string.Empty;
     foreach (var author in authors)
@@ -53,8 +52,7 @@ void AddAuthor()
 
 void DeleteDupicate()
 {
-    using var _context = new PubContext();
-    var duplicateAuthors = _context.Authors
+    var duplicateAuthors = context.Authors
         .GroupBy(aut => new { aut.LastName, aut.FirstName})
         .Select(g => new
         {
@@ -68,16 +66,15 @@ void DeleteDupicate()
     {
         while(duplicateAuthor.Count != 1)
         {
-            _context.Authors.Remove(duplicateAuthor.First());
+            context.Authors.Remove(duplicateAuthor.First());
             duplicateAuthor.Remove(duplicateAuthor.First());
-            _context.SaveChanges();
+            context.SaveChanges();
         }
     }
 }
 
 string GetAuthors()
 {
-    using var context = new PubContext();
     var authors = context.Authors.ToList();
     var listAUthors = string.Empty;
     foreach (var author in authors)
@@ -86,6 +83,10 @@ string GetAuthors()
     }
     return listAUthors;
 }
+
+var name = "Ozeki";
+var authorSearch = context.Authors.Where(a => a.LastName == name).ToList();
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
