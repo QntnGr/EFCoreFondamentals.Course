@@ -40,7 +40,7 @@ namespace PublisherData.Migrations
 
                     b.HasKey("AuthorId");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
 
                     b.HasData(
                         new
@@ -106,7 +106,7 @@ namespace PublisherData.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
 
                     b.HasData(
                         new

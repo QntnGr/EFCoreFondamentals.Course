@@ -7,6 +7,47 @@ using var context = new PubContext();
     context.Database.EnsureCreated();
 }
 
+//AddNewBookToExistingAuthorInMemoryViaBook();
+void AddNewBookToExistingAuthorInMemoryViaBook()
+{
+    var book = new Book
+    {
+        Title = "Shift",
+        PublishDate = new DateOnly(2012, 1, 1),
+        AuthorId = 5
+    };
+    //book.Author = _context.Authors.Find(5); //known id for Hugh Howey
+    context.Books.Add(book);
+    context.SaveChanges();
+}
+
+//AddNewBookToExistingAuthorInMemory();
+void AddNewBookToExistingAuthorInMemory()
+{
+    var author = context.Authors.FirstOrDefault(a => a.LastName == "Howey");
+    if (author != null)
+    {
+        author.Books.Add(
+          new Book { Title = "Wool", PublishDate = new DateOnly(2012, 1, 1) }
+          );
+        //_context.Authors.Add(author); //this will cause a duplicate key error
+    }
+    context.SaveChanges();
+}
+
+
+//InsertNewAuthorWithBook();
+void InsertNewAuthorWithBook()
+{
+    var author = new Author { FirstName = "Lynda", LastName = "Rutledge" };
+    author.Books.Add(new Book
+    {
+        Title = "West With Giraffes",
+        PublishDate = new DateOnly(2021, 2, 1)
+    });
+    context.Authors.Add(author);
+    context.SaveChanges();
+}
 
 void AddAuthorWithBook()
 {
@@ -84,8 +125,6 @@ string GetAuthors()
     return listAUthors;
 }
 
-var name = "Ozeki";
-var authorSearch = context.Authors.Where(a => a.LastName == name).ToList();
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
