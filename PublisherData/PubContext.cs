@@ -20,7 +20,7 @@ public class PubContext : DbContext
             {
                 File.AppendAllText("EFCoreLog.txt", message + Environment.NewLine);
             }
-        },
+        }, 
         new[] { DbLoggerCategory.Database.Name },
         LogLevel.Information);
         //.EnableSensitiveDataLogging();//to add in debug, display parameters in query
