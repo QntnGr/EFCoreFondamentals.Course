@@ -7,6 +7,19 @@ using var context = new PubContext();
     context.Database.EnsureCreated();
 }
 
+//AddNewBookToExistingAuthorInMemoryViaBook();
+void AddNewBookToExistingAuthorInMemoryViaBook()
+{
+    var book = new Book
+    {
+        Title = "Shift",
+        PublishDate = new DateOnly(2012, 1, 1),
+        AuthorId = 5
+    };
+    //book.Author = _context.Authors.Find(5); //known id for Hugh Howey
+    context.Books.Add(book);
+    context.SaveChanges();
+}
 
 //AddNewBookToExistingAuthorInMemory();
 void AddNewBookToExistingAuthorInMemory()
