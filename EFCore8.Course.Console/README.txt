@@ -4,6 +4,9 @@ dotnet tool install dotnet-ef
 .ajouter une migration:
 add-migration MigrationName
 
+.supprimer une migration pas encore appliqué a la bdd:
+remove-migration
+
 .appliquer la migration a la base de donnée
 update-database
 

@@ -22,8 +22,8 @@ public class PubContext : DbContext
             }
         }, 
         new[] { DbLoggerCategory.Database.Name },
-        LogLevel.Information);
-        //.EnableSensitiveDataLogging();//to add in debug, display parameters in query
+        LogLevel.Information)
+        .EnableSensitiveDataLogging();//to add in debug, display parameters in query
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -7,6 +7,18 @@ using var context = new PubContext();
     context.Database.EnsureCreated();
 }
 
+//InsertNewAuthorWithBook();
+void InsertNewAuthorWithBook()
+{
+    var author = new Author { FirstName = "Lynda", LastName = "Rutledge" };
+    author.Books.Add(new Book
+    {
+        Title = "West With Giraffes",
+        PublishDate = new DateOnly(2021, 2, 1)
+    });
+    context.Authors.Add(author);
+    context.SaveChanges();
+}
 
 void AddAuthorWithBook()
 {
@@ -84,8 +96,6 @@ string GetAuthors()
     return listAUthors;
 }
 
-var name = "Ozeki";
-var authorSearch = context.Authors.Where(a => a.LastName == name).ToList();
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
