@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PublisherData;
 
@@ -11,9 +12,11 @@ using PublisherData;
 namespace PublisherData.Migrations
 {
     [DbContext(typeof(PubContext))]
-    partial class PubContextModelSnapshot : ModelSnapshot
+    [Migration("20250220161156_BookRelation")]
+    partial class BookRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +27,11 @@ namespace PublisherData.Migrations
 
             modelBuilder.Entity("PublisherDomain.Author", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -38,44 +41,44 @@ namespace PublisherData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("Id");
 
                     b.ToTable("Authors");
 
                     b.HasData(
                         new
                         {
-                            AuthorId = 1,
+                            Id = 1,
                             FirstName = "Rhoda",
                             LastName = "Lerman"
                         },
                         new
                         {
-                            AuthorId = 2,
+                            Id = 2,
                             FirstName = "Ruth",
                             LastName = "Ozeki"
                         },
                         new
                         {
-                            AuthorId = 3,
+                            Id = 3,
                             FirstName = "Sofia",
                             LastName = "Segovia"
                         },
                         new
                         {
-                            AuthorId = 4,
+                            Id = 4,
                             FirstName = "Ursula K.",
                             LastName = "LeGuin"
                         },
                         new
                         {
-                            AuthorId = 5,
+                            Id = 5,
                             FirstName = "Hugh",
                             LastName = "Howey"
                         },
                         new
                         {
-                            AuthorId = 6,
+                            Id = 6,
                             FirstName = "Isabelle",
                             LastName = "Allende"
                         });
@@ -92,7 +95,7 @@ namespace PublisherData.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("BasePrice")
+                    b.Property<decimal?>("BasePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateOnly>("PublishDate")
@@ -107,43 +110,15 @@ namespace PublisherData.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
-
-                    b.HasData(
-                        new
-                        {
-                            BookId = 1,
-                            AuthorId = 1,
-                            BasePrice = 0m,
-                            PublishDate = new DateOnly(1989, 3, 1),
-                            Title = "In God's Ear"
-                        },
-                        new
-                        {
-                            BookId = 2,
-                            AuthorId = 2,
-                            BasePrice = 0m,
-                            PublishDate = new DateOnly(2013, 12, 31),
-                            Title = "A Tale For the Time Being"
-                        },
-                        new
-                        {
-                            BookId = 3,
-                            AuthorId = 3,
-                            BasePrice = 0m,
-                            PublishDate = new DateOnly(1969, 3, 1),
-                            Title = "The Left Hand of Darkness"
-                        });
                 });
 
             modelBuilder.Entity("PublisherDomain.Book", b =>
                 {
-                    b.HasOne("PublisherDomain.Author", "Author")
+                    b.HasOne("PublisherDomain.Author", null)
                         .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("PublisherDomain.Author", b =>

@@ -7,12 +7,6 @@ using (PubContext context = new PubContext())
     context.Database.EnsureCreated();
 }
 
-//GetAuthors();
-//AddAuthor();
-//GetAuthors();
-//AddAuthorWithBook();
-//GetAuthorsWithBooks();
-//DeleteDupicate();
 
 void AddAuthorWithBook()
 {
@@ -21,13 +15,13 @@ void AddAuthorWithBook()
     {
         Title = "Programming Entity Framework",
         PublishDate = new DateOnly(2009, 1, 1),
-        Author = author,
+        AuthorId = author.AuthorId,
     });
     author.Books.Add(new Book
     {
         Title = "Programming Entity Framework 2nd Ed",
         PublishDate = new DateOnly(2010, 8, 1),
-        Author = author,
+        AuthorId = author.AuthorId,
     });
     using var context = new PubContext();
     context.Authors.Add(author);
